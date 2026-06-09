@@ -15,6 +15,10 @@ import { renderSectionPrompt } from "@/generators/sectionPrompts";
 import { downloadText } from "@/lib/exportFiles";
 import { slugify } from "@/lib/helpers";
 import {
+  parseSectionAiAnswers,
+  getSectionFieldConfig,
+} from "@/lib/sectionAiAnswerParser";
+import {
   Copy,
   CheckCircle2,
   Download,
@@ -22,6 +26,7 @@ import {
   ClipboardPaste,
   Eraser,
   FileText,
+  Wand2,
 } from "lucide-react";
 
 const SECTION_LABELS = {
@@ -34,11 +39,12 @@ const SECTION_LABELS = {
 };
 
 export default function SectionAiPromptPanel({ sectionKey }) {
-  const { data } = useBuilder();
+  const { data, setField } = useBuilder();
 
   const [promptCopied, setPromptCopied] = useState(false);
   const [answersCopied, setAnswersCopied] = useState(false);
   const [aiAnswers, setAiAnswers] = useState("");
+  const [applyStatus, setApplyStatus] = useState("");
 
   const prompt = useMemo(() => {
     return renderSectionPrompt(sectionKey, data);
@@ -47,6 +53,7 @@ export default function SectionAiPromptPanel({ sectionKey }) {
   const sectionLabel = SECTION_LABELS[sectionKey] || sectionKey;
   const baseName = slugify(data.meta.projectName || "untitled-game");
   const storageKey = `gdd-builder-ai-answers-${baseName}-${sectionKey}`;
+  const expectedFields = getSectionFieldConfig(sectionKey);
 
   useEffect(() => {
     try {
@@ -110,10 +117,29 @@ export default function SectionAiPromptPanel({ sectionKey }) {
 
   const handleClearAnswers = () => {
     setAiAnswers("");
+    setApplyStatus("");
   };
 
   const handleDownloadAnswers = () => {
     downloadText(`${baseName}-${sectionKey}-ai-answers.md`, aiAnswers || "");
+  };
+
+  const handleApplyParsedAnswers = () => {
+    const parsed = parseSectionAiAnswers(aiAnswers, sectionKey);
+    const entries = Object.entries(parsed);
+
+    if (!entries.length) {
+      setApplyStatus(
+        "Parser did not recognize any fields. Try using simple labels like 'Setting:', 'Premise:', or markdown headings like '## Setting'."
+      );
+      return;
+    }
+
+    entries.forEach(([path, value]) => {
+      setField(path, value);
+    });
+
+    setApplyStatus(`Applied ${entries.length} parsed field${entries.length === 1 ? "" : "s"} to the form.`);
   };
 
   if (!prompt) {
@@ -184,10 +210,24 @@ export default function SectionAiPromptPanel({ sectionKey }) {
           <ol className="list-decimal space-y-2 pl-5 text-sm leading-6 text-slate-600">
             <li>Copy this prompt into your AI tool.</li>
             <li>Let the AI guide you section-by-section.</li>
-            <li>Approve or refine ideas as they are developed.</li>
-            <li>Paste the resulting AI answers into the box below.</li>
-            <li>Use the pasted content to fill in this section’s fields.</li>
+            <li>Ask the AI to return answers using the exact field labels below.</li>
+            <li>Paste the AI’s final section notes into the box below.</li>
+            <li>Click <strong>Apply Parsed Answers</strong> to populate matching fields automatically.</li>
           </ol>
+        </div>
+
+        <div className="rounded-2xl border border-slate-200 bg-white p-4">
+          <div className="mb-2 text-xs font-medium uppercase tracking-wide text-slate-500">
+            Best parser format
+          </div>
+
+          <div className="space-y-2 text-sm leading-6 text-slate-600">
+            <p>Ask the AI to end with labeled answers like:</p>
+
+            <pre className="whitespace-pre-wrap rounded-xl bg-slate-50 p-3 text-xs leading-5 text-slate-700">
+{expectedFields.map((field) => `${field.label}: ...`).join("\n")}
+            </pre>
+          </div>
         </div>
 
         <div className="rounded-2xl border bg-slate-50">
@@ -206,8 +246,8 @@ export default function SectionAiPromptPanel({ sectionKey }) {
                 Paste AI Answers
               </div>
               <div className="mt-1 text-xs leading-5 text-slate-500">
-                Paste the AI’s refined section notes here so you can reference them while
-                completing the form. These notes are saved locally for this project + section.
+                Paste the AI’s refined section notes here. These notes are saved locally for
+                this project + section.
               </div>
             </div>
           </div>
@@ -262,13 +302,25 @@ export default function SectionAiPromptPanel({ sectionKey }) {
             onChange={(e) => setAiAnswers(e.target.value)}
             placeholder={`Paste the AI-generated ${sectionLabel} guidance here...
 
-Suggested workflow:
-- let the AI ask you questions
-- refine/approve section details
-- paste the final structured notes here
-- use those notes to complete the fields on the left`}
+Recommended format:
+${expectedFields.map((field) => `${field.label}: ...`).join("\n")}`}
             className="min-h-[220px] rounded-2xl"
           />
+
+          <div className="flex flex-wrap items-center gap-3">
+            <Button
+              onClick={handleApplyParsedAnswers}
+              className="rounded-2xl bg-violet-600 text-white hover:bg-violet-700"
+              disabled={!aiAnswers.trim()}
+            >
+              <Wand2 className="mr-2 h-4 w-4" />
+              Apply Parsed Answers
+            </Button>
+
+            {applyStatus ? (
+              <div className="text-xs leading-5 text-slate-500">{applyStatus}</div>
+            ) : null}
+          </div>
         </div>
       </CardContent>
     </Card>
