@@ -3,7 +3,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 import DashboardHero from "@/components/layout/DashboardHero";
 import SectionProgressCards from "@/components/layout/SectionProgressCards";
@@ -12,12 +18,13 @@ import GenreStarterCard from "@/components/forms/GenreStarterCard";
 import OutputStudioForm from "@/components/forms/OutputStudioForm";
 import OutputPreviewTabs from "@/components/outputs/OutputPreviewTabs";
 import TemplateLoader from "@/components/forms/TemplateLoader";
+import SectionAiPromptPanel from "@/components/outputs/SectionAiPromptPanel";
 
 import { SECTIONS } from "@/data/sections";
 import { BuilderProvider, useBuilder } from "./builderContext";
 
 function GameDesignBuilderScreen() {
- const {
+  const {
     data,
     activeTab,
     setActiveTab,
@@ -38,7 +45,11 @@ function GameDesignBuilderScreen() {
               </TabsTrigger>
 
               {SECTIONS.map((section) => (
-                <TabsTrigger key={section.key} value={section.key} className="rounded-xl px-4 py-2">
+                <TabsTrigger
+                  key={section.key}
+                  value={section.key}
+                  className="rounded-xl px-4 py-2"
+                >
                   {section.title}
                 </TabsTrigger>
               ))}
@@ -77,7 +88,10 @@ function GameDesignBuilderScreen() {
 
                     <div>
                       <Label className="mb-2 block">Genre / Starter Type</Label>
-                      <Select value={data.meta.genre} onValueChange={(value) => setField("meta.genre", value)}>
+                      <Select
+                        value={data.meta.genre}
+                        onValueChange={(value) => setField("meta.genre", value)}
+                      >
                         <SelectTrigger className="rounded-2xl">
                           <SelectValue placeholder="Select genre" />
                         </SelectTrigger>
@@ -135,11 +149,15 @@ function GameDesignBuilderScreen() {
                       body: "Add worldbuilding, systems, content, assets, and technical specs with progressive depth.",
                     },
                     {
-                      title: "3. Configure AI outputs",
+                      title: "3. Use AI section guides",
+                      body: "Each major section includes a copy-ready AI collaboration prompt that can walk the user through structured design questions and iterative refinement.",
+                    },
+                    {
+                      title: "4. Configure AI outputs",
                       body: "Set tone, detail level, preferred format, and which deliverables should be generated.",
                     },
                     {
-                      title: "4. Export and iterate",
+                      title: "5. Export and iterate",
                       body: "Copy or download concept docs, GDDs, lore packs, asset briefs, technical specs, AI build prompts, or a full zip bundle.",
                     },
                   ].map((item, index) => (
@@ -150,7 +168,9 @@ function GameDesignBuilderScreen() {
                         </div>
                         <div>
                           <div className="font-medium text-slate-900">{item.title}</div>
-                          <div className="mt-1 text-sm leading-6 text-slate-600">{item.body}</div>
+                          <div className="mt-1 text-sm leading-6 text-slate-600">
+                            {item.body}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -171,11 +191,14 @@ function GameDesignBuilderScreen() {
                 </CardHeader>
 
                 <CardContent className="space-y-4 text-sm leading-6 text-slate-600">
-                  <p>Load a template to instantly populate the form with a complete sample project.</p>
+                  <p>
+                    Load a template to instantly populate the form with a complete sample project.
+                  </p>
                   <p>Once loaded, you can:</p>
                   <ul className="list-disc space-y-2 pl-5">
                     <li>Edit the concept and convert it into your own project</li>
                     <li>Review how systems, lore, assets, and technical specs are structured</li>
+                    <li>Use section-level AI guides to collaborate on each major design area</li>
                     <li>Jump into the Outputs tab to see AI-ready exports immediately</li>
                     <li>Download a full zip bundle to inspect the deliverables</li>
                   </ul>
@@ -186,7 +209,7 @@ function GameDesignBuilderScreen() {
             <SectionProgressCards />
           </TabsContent>
 
-         {SECTIONS.map((section) => {
+          {SECTIONS.map((section) => {
             const Icon = section.icon;
             const sectionStatus = sectionCompletion.find((s) => s.key === section.key);
             const percent = sectionStatus?.percent ?? 0;
@@ -202,7 +225,9 @@ function GameDesignBuilderScreen() {
                             <Icon className="h-5 w-5 text-slate-700" />
                             {section.title}
                           </CardTitle>
-                          <CardDescription className="mt-1">{section.description}</CardDescription>
+                          <CardDescription className="mt-1">
+                            {section.description}
+                          </CardDescription>
                         </div>
 
                         <div className="rounded-full bg-slate-100 px-3 py-1 text-sm text-slate-800">
@@ -216,17 +241,32 @@ function GameDesignBuilderScreen() {
                     </CardContent>
                   </Card>
 
-                  <GenreStarterCard />
+                  <div className="space-y-6">
+                    <GenreStarterCard />
+
+                    {["concept", "world", "systems", "content", "assets", "technical"].includes(
+                      section.key
+                    ) ? (
+                      <SectionAiPromptPanel sectionKey={section.key} />
+                    ) : null}
+                  </div>
                 </div>
               </TabsContent>
             );
           })}
 
-              </Tabs>
-            </div>
-          </div>
-        );
-      }
+          <TabsContent value="outputStudio">
+            <OutputStudioForm />
+          </TabsContent>
+
+          <TabsContent value="outputs">
+            <OutputPreviewTabs />
+          </TabsContent>
+        </Tabs>
+      </div>
+    </div>
+  );
+}
 
 export default function GameDesignBuilder() {
   return (
