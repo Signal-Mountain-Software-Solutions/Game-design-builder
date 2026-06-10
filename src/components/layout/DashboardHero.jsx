@@ -1,7 +1,13 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Save, Sparkles, RefreshCcw, PanelTop, FileOutput } from "lucide-react";
+import {
+  Save,
+  Sparkles,
+  RefreshCcw,
+  PanelTop,
+  FileOutput,
+} from "lucide-react";
 import { useBuilder } from "@/features/game-design-builder/builderContext";
 
 export default function DashboardHero() {
@@ -47,7 +53,9 @@ export default function DashboardHero() {
                 <div className="text-xs uppercase tracking-wide text-slate-400">
                   {stat.label}
                 </div>
-                <div className="mt-1 text-sm font-semibold text-white">{stat.value}</div>
+                <div className="mt-1 text-sm font-semibold text-white">
+                  {stat.value}
+                </div>
               </div>
             ))}
           </div>
@@ -72,50 +80,51 @@ export default function DashboardHero() {
             />
           </div>
 
-          {/* Action grid with output navigation moved here */}
-          <div className="grid grid-cols-3 gap-2 pt-1 item-stretch">
+          <div className="grid grid-cols-3 gap-2 pt-1 items-stretch">
+            {/* Row 1 */}
             <Button
               onClick={saveLocal}
-              className="rounded-2xl bg-white text-slate-950 hover:bg-slate-100"
+              className="w-full rounded-2xl bg-white text-slate-950 hover:bg-slate-100"
             >
-              <Save className="mr-2 h-4 w-4" />
-              Save
+              <Save className="mr-2 h-4 w-4 shrink-0" />
+              <span className="truncate">Save</span>
             </Button>
 
             <Button
               variant="secondary"
               onClick={applyGenreSuggestions}
-              className="rounded-2xl border-0 bg-violet-500 text-white hover:bg-violet-600"
+              className="w-full rounded-2xl border-0 bg-violet-500 text-white hover:bg-violet-600"
             >
-              <Sparkles className="mr-2 h-4 w-4" />
-              Apply Genre Suggestions
+              <Sparkles className="mr-2 h-4 w-4 shrink-0" />
+              <span className="truncate">Apply Suggestions</span>
             </Button>
 
             <Button
               variant="ghost"
               onClick={resetAll}
-              className="rounded-2xl border border-white/10 text-white hover:bg-white/10"
+              className="w-full rounded-2xl border border-white/10 text-white hover:bg-white/10"
             >
-              <RefreshCcw className="mr-2 h-4 w-4" />
-              Reset
+              <RefreshCcw className="mr-2 h-4 w-4 shrink-0" />
+              <span className="truncate">Reset</span>
             </Button>
 
+            {/* Row 2 */}
             <Button
               variant="ghost"
               onClick={() => setActiveTab("outputStudio")}
-              className="rounded-2xl border border-white/10 text-white hover:bg-white/10"
+              className="w-full rounded-2xl border border-white/10 text-white hover:bg-white/10"
             >
-              <PanelTop className="mr-2 h-4 w-4" />
-              Output Studio
+              <PanelTop className="mr-2 h-4 w-4 shrink-0" />
+              <span className="truncate">Output Studio</span>
             </Button>
 
             <Button
               variant="ghost"
               onClick={() => setActiveTab("outputs")}
-              className="rounded-2xl border border-white/10 text-white hover:bg-white/10"
+              className="w-full rounded-2xl border border-white/10 text-white hover:bg-white/10"
             >
-              <FileOutput className="mr-2 h-4 w-4" />
-              Outputs
+              <FileOutput className="mr-2 h-4 w-4 shrink-0" />
+              <span className="truncate">Outputs</span>
             </Button>
 
             <div />
