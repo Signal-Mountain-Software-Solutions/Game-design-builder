@@ -38,8 +38,8 @@ function GameDesignBuilderScreen() {
         <DashboardHero />
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <ScrollArea className="w-full whitespace-nowrap rounded-2xl border bg-white p-1 shadow-sm">
-            <TabsList className="inline-flex h-auto w-max rounded-xl bg-transparent p-1">
+           <div className="w-full overflow-x-auto rounded-2xl border bg-white p-1 shadow-sm">
+            <TabsList className="flex w-max gap-2 bg-transparent">
               <TabsTrigger value="dashboard" className="rounded-xl px-4 py-2">
                 Dashboard
               </TabsTrigger>
