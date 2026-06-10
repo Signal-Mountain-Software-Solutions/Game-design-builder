@@ -235,13 +235,13 @@ export default function SectionAiPromptPanel({ sectionKey }) {
           </div>
         </div>
 
-        <div className="rounded-2xl border bg-slate-50">
-          <ScrollArea className="max-h-[320px]">
-            <pre className="whitespace-pre-wrap p-4 text-sm leading-6 text-slate-800">
-              {prompt}
-            </pre>
-          </ScrollArea>
-        </div>
+         <div className="rounded-2xl border bg-slate-50 overflow-hidden">
+      <div className="max-h-[320px] overflow-y-auto">
+        <pre className="whitespace-pre-wrap break-words p-4 text-sm leading-6 text-slate-800">
+          {prompt}
+        </pre>
+      </div>
+    </div>
 
         <div className="space-y-3 rounded-2xl border border-slate-200 p-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
