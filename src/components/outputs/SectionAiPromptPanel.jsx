@@ -303,14 +303,11 @@ export default function SectionAiPromptPanel({ sectionKey }) {
           </div>
 
           <Textarea
-            value={aiAnswers}
-            onChange={(e) => setAiAnswers(e.target.value)}
-            placeholder={`Paste the AI-generated ${sectionLabel} guidance here...
-
-Recommended format:
-${expectedFields.map((field) => `${field.label}: ...`).join("\n")}`}
-            className="min-h-[220px] rounded-2xl"
-          />
+          value={aiAnswers}
+          onChange={(e) => setAiAnswers(e.target.value)}
+          placeholder="Paste the AI-generated section guidance here..."
+          className="min-h-[220px] rounded-2xl"
+/>
 
           <div className="flex flex-wrap items-center gap-3">
             <Button
