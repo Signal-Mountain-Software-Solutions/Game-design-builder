@@ -10,6 +10,17 @@ import {
 } from "lucide-react";
 import { useBuilder } from "@/features/game-design-builder/builderContext";
 
+function ActionGroup({ title, children }) {
+  return (
+    <div className="space-y-2">
+      <div className="text-[11px] font-medium uppercase tracking-[0.14em] text-slate-400">
+        {title}
+      </div>
+      <div className="flex flex-wrap gap-2">{children}</div>
+    </div>
+  );
+}
+
 export default function DashboardHero() {
   const {
     completion,
@@ -22,8 +33,9 @@ export default function DashboardHero() {
   } = useBuilder();
 
   return (
-    <Card className="overflow-hidden rounded-[28px] border-0 bg-slate-950 text-white shadow-2xl">
+    <Card className="overflow-visible rounded-[28px] border-0 bg-slate-950 text-white shadow-2xl">
       <CardContent className="grid gap-6 p-6 md:grid-cols-[1.5fr_1fr] md:p-8">
+        {/* Left side */}
         <div className="space-y-4">
           <div className="flex flex-wrap items-center gap-3">
             <Badge className="rounded-full bg-violet-500/20 px-3 py-1 text-violet-200 hover:bg-violet-500/20">
@@ -61,7 +73,9 @@ export default function DashboardHero() {
           </div>
         </div>
 
+        {/* Right side */}
         <div className="space-y-4 rounded-[24px] bg-white/5 p-5 backdrop-blur">
+          {/* Progress */}
           <div className="flex items-center justify-between">
             <div>
               <div className="text-sm font-medium text-white">Progress</div>
@@ -80,54 +94,61 @@ export default function DashboardHero() {
             />
           </div>
 
-          <div className="grid grid-cols-3 gap-2 pt-1 items-stretch">
-            {/* Row 1 */}
-            <Button
-              onClick={saveLocal}
-              className="w-full rounded-2xl bg-white text-slate-950 hover:bg-slate-100"
-            >
-              <Save className="mr-2 h-4 w-4 shrink-0" />
-              <span className="truncate">Save</span>
-            </Button>
+          {/* Product-grade command bar */}
+          <div className="rounded-[20px] border border-white/10 bg-black/10 p-3">
+            <div className="flex flex-col gap-4">
+              <ActionGroup title="Primary">
+                <Button
+                  onClick={saveLocal}
+                  className="rounded-2xl bg-white text-slate-950 hover:bg-slate-100"
+                >
+                  <Save className="mr-2 h-4 w-4 shrink-0" />
+                  <span>Save</span>
+                </Button>
+              </ActionGroup>
 
-            <Button
-              variant="secondary"
-              onClick={applyGenreSuggestions}
-              className="w-full rounded-2xl border-0 bg-violet-500 text-white hover:bg-violet-600"
-            >
-              <Sparkles className="mr-2 h-4 w-4 shrink-0" />
-              <span className="truncate">Apply Suggestions</span>
-            </Button>
+              <ActionGroup title="Design Tools">
+                <Button
+                  variant="secondary"
+                  onClick={applyGenreSuggestions}
+                  className="rounded-2xl border-0 bg-violet-500 text-white hover:bg-violet-600"
+                >
+                  <Sparkles className="mr-2 h-4 w-4 shrink-0" />
+                  <span className="hidden sm:inline">Apply Suggestions</span>
+                  <span className="sm:hidden">Apply</span>
+                </Button>
 
-            <Button
-              variant="ghost"
-              onClick={resetAll}
-              className="w-full rounded-2xl border border-white/10 text-white hover:bg-white/10"
-            >
-              <RefreshCcw className="mr-2 h-4 w-4 shrink-0" />
-              <span className="truncate">Reset</span>
-            </Button>
+                <Button
+                  variant="ghost"
+                  onClick={resetAll}
+                  className="rounded-2xl border border-white/10 text-white hover:bg-white/10"
+                >
+                  <RefreshCcw className="mr-2 h-4 w-4 shrink-0" />
+                  <span>Reset</span>
+                </Button>
+              </ActionGroup>
 
-            {/* Row 2 */}
-            <Button
-              variant="ghost"
-              onClick={() => setActiveTab("outputStudio")}
-              className="w-full rounded-2xl border border-white/10 text-white hover:bg-white/10"
-            >
-              <PanelTop className="mr-2 h-4 w-4 shrink-0" />
-              <span className="truncate">Output Studio</span>
-            </Button>
+              <ActionGroup title="Output">
+                <Button
+                  variant="ghost"
+                  onClick={() => setActiveTab("outputStudio")}
+                  className="rounded-2xl border border-white/10 text-white hover:bg-white/10"
+                >
+                  <PanelTop className="mr-2 h-4 w-4 shrink-0" />
+                  <span className="hidden sm:inline">Output Studio</span>
+                  <span className="sm:hidden">Studio</span>
+                </Button>
 
-            <Button
-              variant="ghost"
-              onClick={() => setActiveTab("outputs")}
-              className="w-full rounded-2xl border border-white/10 text-white hover:bg-white/10"
-            >
-              <FileOutput className="mr-2 h-4 w-4 shrink-0" />
-              <span className="truncate">Outputs</span>
-            </Button>
-
-            <div />
+                <Button
+                  variant="ghost"
+                  onClick={() => setActiveTab("outputs")}
+                  className="rounded-2xl border border-white/10 text-white hover:bg-white/10"
+                >
+                  <FileOutput className="mr-2 h-4 w-4 shrink-0" />
+                  <span>Outputs</span>
+                </Button>
+              </ActionGroup>
+            </div>
           </div>
 
           {savedAt ? (
