@@ -16,7 +16,6 @@ import SectionForm from "@/components/forms/SectionForm";
 import GenreStarterCard from "@/components/forms/GenreStarterCard";
 import OutputStudioForm from "@/components/forms/OutputStudioForm";
 import OutputPreviewTabs from "@/components/outputs/OutputPreviewTabs";
-import TemplateLoader from "@/components/forms/TemplateLoader";
 import SectionAiPromptPanel from "@/components/outputs/SectionAiPromptPanel";
 
 import { SECTIONS } from "@/data/sections";
@@ -37,7 +36,7 @@ function GameDesignBuilderScreen() {
         <DashboardHero />
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          {/* Top navigation trimmed down to main app sections only */}
+          {/* Main navigation */}
           <div className="w-full overflow-x-auto rounded-2xl border bg-white p-1 shadow-sm scroll-smooth">
             <TabsList className="flex w-max gap-2 bg-transparent">
               <TabsTrigger value="dashboard" className="rounded-xl px-4 py-2">
@@ -150,8 +149,8 @@ function GameDesignBuilderScreen() {
                       body: "Paste AI-generated section guidance into the right-side panel and use it to complete or auto-apply structured answers into the form.",
                     },
                     {
-                      title: "5. Configure AI outputs and export",
-                      body: "Use the Output Studio and Outputs buttons in the hero panel to manage exports, then download individual files or a full bundle.",
+                      title: "5. Export and iterate",
+                      body: "Use Output Studio and Outputs from the hero command bar to manage exports, prompts, and full-package downloads.",
                     },
                   ].map((item, index) => (
                     <div key={item.title} className="rounded-2xl border border-slate-200 p-4">
@@ -168,34 +167,6 @@ function GameDesignBuilderScreen() {
                       </div>
                     </div>
                   ))}
-                </CardContent>
-              </Card>
-            </div>
-
-            <div className="grid gap-6 xl:grid-cols-[1fr_1fr]">
-              <TemplateLoader />
-
-              <Card className="rounded-[28px] border-slate-200 shadow-sm">
-                <CardHeader>
-                  <CardTitle>How to use templates</CardTitle>
-                  <CardDescription>
-                    Example templates accelerate ideation and show the level of detail the tool can support.
-                  </CardDescription>
-                </CardHeader>
-
-                <CardContent className="space-y-4 text-sm leading-6 text-slate-600">
-                  <p>
-                    Load a template to instantly populate the form with a complete sample project.
-                  </p>
-                  <p>Once loaded, you can:</p>
-                  <ul className="list-disc space-y-2 pl-5">
-                    <li>Edit the concept and convert it into your own project</li>
-                    <li>Review how systems, lore, assets, and technical specs are structured</li>
-                    <li>Use section-level AI guides to collaborate on each major design area</li>
-                    <li>Paste AI answers into the side panel and apply structured responses</li>
-                    <li>Use the hero action buttons to jump directly into Output Studio or Outputs</li>
-                    <li>Download a full zip bundle to inspect the deliverables</li>
-                  </ul>
                 </CardContent>
               </Card>
             </div>
@@ -250,12 +221,12 @@ function GameDesignBuilderScreen() {
             );
           })}
 
-          {/* Output Studio still exists as a tab panel, just navigated from hero buttons */}
+          {/* Output Studio */}
           <TabsContent value="outputStudio">
             <OutputStudioForm />
           </TabsContent>
 
-          {/* Outputs still exists as a tab panel, just navigated from hero buttons */}
+          {/* Outputs */}
           <TabsContent value="outputs">
             <OutputPreviewTabs />
           </TabsContent>
