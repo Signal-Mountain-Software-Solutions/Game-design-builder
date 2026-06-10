@@ -37,7 +37,7 @@ function GameDesignBuilderScreen() {
         <DashboardHero />
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          {/* Top navigation with horizontal scroll fix + optional polish */}
+          {/* Top navigation trimmed down to main app sections only */}
           <div className="w-full overflow-x-auto rounded-2xl border bg-white p-1 shadow-sm scroll-smooth">
             <TabsList className="flex w-max gap-2 bg-transparent">
               <TabsTrigger value="dashboard" className="rounded-xl px-4 py-2">
@@ -53,14 +53,6 @@ function GameDesignBuilderScreen() {
                   {section.title}
                 </TabsTrigger>
               ))}
-
-              <TabsTrigger value="outputStudio" className="rounded-xl px-4 py-2">
-                Output Studio
-              </TabsTrigger>
-
-              <TabsTrigger value="outputs" className="rounded-xl px-4 py-2">
-                Outputs
-              </TabsTrigger>
             </TabsList>
           </div>
 
@@ -159,7 +151,7 @@ function GameDesignBuilderScreen() {
                     },
                     {
                       title: "5. Configure AI outputs and export",
-                      body: "Set tone, detail level, preferred format, and generate concept docs, GDDs, lore packs, technical specs, prompts, or a full zip bundle.",
+                      body: "Use the Output Studio and Outputs buttons in the hero panel to manage exports, then download individual files or a full bundle.",
                     },
                   ].map((item, index) => (
                     <div key={item.title} className="rounded-2xl border border-slate-200 p-4">
@@ -201,7 +193,7 @@ function GameDesignBuilderScreen() {
                     <li>Review how systems, lore, assets, and technical specs are structured</li>
                     <li>Use section-level AI guides to collaborate on each major design area</li>
                     <li>Paste AI answers into the side panel and apply structured responses</li>
-                    <li>Jump into the Outputs tab to see AI-ready exports immediately</li>
+                    <li>Use the hero action buttons to jump directly into Output Studio or Outputs</li>
                     <li>Download a full zip bundle to inspect the deliverables</li>
                   </ul>
                 </CardContent>
@@ -258,12 +250,12 @@ function GameDesignBuilderScreen() {
             );
           })}
 
-          {/* Output Studio */}
+          {/* Output Studio still exists as a tab panel, just navigated from hero buttons */}
           <TabsContent value="outputStudio">
             <OutputStudioForm />
           </TabsContent>
 
-          {/* Outputs */}
+          {/* Outputs still exists as a tab panel, just navigated from hero buttons */}
           <TabsContent value="outputs">
             <OutputPreviewTabs />
           </TabsContent>
