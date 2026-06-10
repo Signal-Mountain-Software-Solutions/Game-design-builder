@@ -230,7 +230,7 @@ export default function SectionAiPromptPanel({ sectionKey }) {
             <p>Ask the AI to end with labeled answers like:</p>
 
             <pre className="whitespace-pre-wrap rounded-xl bg-slate-50 p-3 text-xs leading-5 text-slate-700">
-              {expectedFields.map((field) => `${field.label}: ...`).join("\n")}
+              Example parser-friendly output
             </pre>
           </div>
         </div>
