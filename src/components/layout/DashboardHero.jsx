@@ -73,7 +73,7 @@ export default function DashboardHero() {
           </div>
 
           {/* Action grid with output navigation moved here */}
-          <div className="grid grid-cols-3 gap-2 pt-1">
+          <div className="grid grid-cols-3 gap-2 pt-1 item-stretch">
             <Button
               onClick={saveLocal}
               className="rounded-2xl bg-white text-slate-950 hover:bg-slate-100"
